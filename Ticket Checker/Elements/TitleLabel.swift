@@ -9,6 +9,11 @@ import UIKit
 
 class TitleLabel: UILabel {
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        configureLabel()
+    }
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,7 +25,7 @@ class TitleLabel: UILabel {
     }
     
     private func configureLabel() {
-        self.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
+        self.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         self.textColor = .label
         self.translatesAutoresizingMaskIntoConstraints = false 
     }

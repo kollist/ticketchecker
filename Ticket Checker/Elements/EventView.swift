@@ -12,6 +12,7 @@ class EventView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        configureView()
     }
     
     override init(frame: CGRect) {

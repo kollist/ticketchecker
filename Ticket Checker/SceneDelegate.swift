@@ -20,12 +20,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         let vc = ResultViewController();
-        vc.statusImage = UIImage(named: "InvalidTicketIcon")
+        vc.statusImage = UIImage(named: "ValidTicketIcon")
         vc.statusTitle = "Ticket Already Scanned"
         vc.eventInstance = Event(uuid: "8212EPTRQWOS", owner_name: "Mohammed EL BANYAOUI", is_checked: true, is_expired: false, nb_of_checkers: 6, event_title: "All Hail the Buenos Aires Bodegón", event_description: "A reflection of the massive waves of immigrants that arrived in Argentina at the turn of the 19th century, these Italo-Hispano restaurants are brimming with character.", nb_of_persons: 1, channel: "ios", amount: 500, charge_uuid: "86T8AP28M99KG", created_at: "2024-10-16T17:43:36.000000Z")
         vc.ticketNumber = "8212EPTRQWOS"
-        vc.statusColors = [UIColor(named: "InvalidTicketColorTwo")?.cgColor ?? UIColor.green.cgColor, UIColor(named: "InvalidTicketColorOne")?.cgColor ?? UIColor.systemGreen.cgColor]
-        window.rootViewController = QRScannerViewController()
+        vc.statusColors = [UIColor(named: "ValidTicketColorTwo")?.cgColor ?? UIColor.green.cgColor, UIColor(named: "ValidTicketColorTwo")?.cgColor ?? UIColor.systemGreen.cgColor]
+        window.rootViewController = ResultViewController()
         self.window = window
         window.makeKeyAndVisible()
     }

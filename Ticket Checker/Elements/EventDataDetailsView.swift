@@ -10,6 +10,7 @@ import UIKit
 class EventDataDetailsView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
+        configureSubviews()
     }
     
     override init(frame: CGRect) {
@@ -38,13 +39,13 @@ class EventDataDetailsView: UIView {
     private func configureSubviews() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(backgroundImage)
-        self.sendSubviewToBack(backgroundImage)
         NSLayoutConstraint.activate([
             backgroundImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backgroundImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             backgroundImage.topAnchor.constraint(equalTo: self.topAnchor),
             backgroundImage.heightAnchor.constraint(equalTo: self.heightAnchor)
         ])
+        self.sendSubviewToBack(backgroundImage)
     }
 }
 

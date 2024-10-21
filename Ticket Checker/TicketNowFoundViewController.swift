@@ -31,7 +31,7 @@ class TicketNowFoundViewController: UIViewController {
     
     private func configNotFoundIconViewAndTitleAndDesc() {
         let eventView = EventView()
-        eventView.backgroundColor = UIColor(named: "NotFoundTicketColor")
+        eventView.backgroundColor = UIColor(named: "InfoBgColor") ?? .cyan
         eventView.layer.cornerRadius = 209 / 2
         eventView.layer.masksToBounds = true
         
