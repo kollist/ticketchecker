@@ -17,6 +17,7 @@ class TitleLabel: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureLabel()
     }
 
     required init?(coder aDecoder: NSCoder) {

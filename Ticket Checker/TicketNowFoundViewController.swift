@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TicketNowFoundViewController: UIViewController {
+class TicketNowFoundViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +18,10 @@ class TicketNowFoundViewController: UIViewController {
     
     private func configTryAgainBtn() {
         let btn = CustomButton()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBackToScan))
+        tapGesture.cancelsTouchesInView = false
+        tapGesture.delegate = self
+        btn.addGestureRecognizer(tapGesture)
         btn.config("Try Again")
         btn.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(btn)
@@ -27,6 +31,10 @@ class TicketNowFoundViewController: UIViewController {
             btn.heightAnchor.constraint(equalToConstant: 50),
             btn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ])
+    }
+    
+    @objc func goBackToScan() {
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
     
     private func configNotFoundIconViewAndTitleAndDesc() {
@@ -81,7 +89,7 @@ class TicketNowFoundViewController: UIViewController {
 
     
     private func configureView() {
-        self.view.backgroundColor = .systemBackground
+        self.view.backgroundColor = UIColor(named: "BgColor")
     }
     
     private func config() {

@@ -9,6 +9,8 @@ import UIKit
 
 class EventStatusView: UIView {
 
+    var alreadyCheckedTitle: String = "TICKET ALREADY SCANNED."
+    var validTicketTitle: String = "TICKET VALID"
     override func layoutSubviews() {
         super.layoutSubviews()
         updateMaskAndGradient()
@@ -16,11 +18,11 @@ class EventStatusView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureSubviews()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        configureSubviews()
     }
     
     private func updateMaskAndGradient() {
@@ -56,7 +58,7 @@ class EventStatusView: UIView {
         var label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .headline).withSize(22)
+        label.font = .systemFont(ofSize: 22, weight: .bold)
         label.textColor = .white
         return label
     }()
@@ -80,10 +82,21 @@ class EventStatusView: UIView {
         configureSubviews()
     }
     
-    func config(icon: UIImage, title: String, colors: [CGColor]) {
-        iconImage.image = icon
-        titleLabel.text = title
-        gradientFunction(self, colors: colors)
+    func config(checked: Bool) {
+        if checked {
+            let title = "Ticket"
+            if let img = UIImage(named: "InvalidTicketIcon"), let dark = UIColor(named: "InvalidTicketColorTwo")?.cgColor, let light = UIColor(named: "InvalidTicketColorOne")?.cgColor {
+                iconImage.image = img
+                titleLabel.text = alreadyCheckedTitle
+                gradientFunction(self, colors: [dark, light])
+            }
+        }else {
+            if let img = UIImage(named: "ValidTicketIcon"), let dark = UIColor(named: "ValidTicketColorTwo")?.cgColor, let light = UIColor(named: "ValidTicketColorOne")?.cgColor {
+                iconImage.image = img
+                titleLabel.text = alreadyCheckedTitle
+                gradientFunction(self, colors: [dark, light])
+            }
+        }
         setupView()
     }
 
