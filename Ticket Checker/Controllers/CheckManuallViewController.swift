@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import Lottie
 
 class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate, UITextFieldDelegate {
 
     var bottomConstraint: NSLayoutConstraint?
     var centerYConstraint: NSLayoutConstraint?
     var keyboardVisible: Bool = false
+    private var animationView: LottieAnimationView?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +36,29 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.delegate = self
         view.addGestureRecognizer(tap)
+    }
+    
+    func addLoader() {
+        if animationView == nil {
+            animationView = .init(name: "loader")
+            animationView?.frame = view.bounds
+            animationView?.contentMode = .scaleAspectFit
+            animationView?.loopMode = .loop
+            animationView?.backgroundColor = .black.withAlphaComponent(0.8)
+            animationView?.animationSpeed = 0.5
+            if let aniView = animationView {
+                view.addSubview(aniView)
+                aniView.play()
+            }
+        }
+    }
+
+    func removeLoader() {
+        DispatchQueue.main.async {
+            self.animationView?.stop()
+            self.animationView?.removeFromSuperview()
+            self.animationView = nil
+        }
     }
     
     @objc func dismissKeyboard() {
@@ -165,7 +190,11 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         errLbl.isHidden = true
         view.endEditing(true)
         let ticketChecker = TicketChecker()
+        addLoader()
         ticketChecker.checkETicket(ticketNumber: ticketKey) { result in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.removeLoader()
+            }
             switch result {
                 case .success((let event, let link)):
                     print(link)

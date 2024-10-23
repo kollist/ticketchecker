@@ -3,19 +3,42 @@
 //  Ticket Checker
 //
 //  Created by Zaytech Mac on 17/10/2024.
-//
 
 import UIKit
 import AVFoundation
-
+import Lottie
 class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, UIGestureRecognizerDelegate {
 
+    private var animationView: LottieAnimationView?
     let session = AVCaptureSession()
     var previewLayer = AVCaptureVideoPreviewLayer()
     let btn = CustomButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    func addLoader() {
+        if animationView == nil {
+            animationView = .init(name: "loader")
+            animationView?.frame = view.bounds
+            animationView?.contentMode = .scaleAspectFit
+            animationView?.loopMode = .loop
+            animationView?.backgroundColor = .black.withAlphaComponent(0.8)
+            animationView?.animationSpeed = 0.5
+            if let aniView = animationView {
+                view.addSubview(aniView)
+                aniView.play()
+            }
+        }
+    }
+
+    func removeLoader() {
+        DispatchQueue.main.async {
+            self.animationView?.stop()
+            self.animationView?.removeFromSuperview()
+            self.animationView = nil
+        }
     }
     
     func captureAndScanQR() {
@@ -58,8 +81,16 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             guard let readbleObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             if let ticketKey = readbleObject.stringValue {
                 print(ticketKey)
+                
+                addLoader()
+                
                 let ticketChecker = TicketChecker()
                 ticketChecker.checkETicket(ticketNumber: ticketKey) { result in
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeLoader()
+                    }
+                    
                     switch result {
                         case .success((let event, let link)):
                             print(link)

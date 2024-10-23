@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		556208962CC94C590063F8A2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 556208952CC94C590063F8A2 /* Lottie */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		558DE4712CC16DAB0093795B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				556208962CC94C590063F8A2 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = "Ticket Checker";
 			packageProductDependencies = (
+				556208952CC94C590063F8A2 /* Lottie */,
 			);
 			productName = "Ticket Checker";
 			productReference = 558DE4572CC16D970093795B /* Ticket Checker.app */;
@@ -619,6 +625,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		556208952CC94C590063F8A2 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 55F9A4A02CC7EAAB000ECB74 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 558DE44F2CC16D960093795B /* Project object */;
 }
