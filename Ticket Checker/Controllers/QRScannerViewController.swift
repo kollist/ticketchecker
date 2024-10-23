@@ -19,6 +19,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     }
     
     func captureAndScanQR() {
+        
         if let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) {
             do {
                 let input = try AVCaptureDeviceInput(device: captureDevice)
@@ -26,6 +27,9 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             } catch {
                 print("error!")
             }
+        } else {
+            print("NO CAMERA AVAILABLE")
+            return
         }
         let output = AVCaptureMetadataOutput()
         session.addOutput(output)
@@ -196,9 +200,41 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         vc.modalTransitionStyle = .crossDissolve
         self.present(vc, animated: true, completion: nil)
     }
+
+    func checkCameraPermission() {
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch cameraAuthorizationStatus {
+            case .authorized:
+                self.captureAndScanQR()
+            case .notDetermined:
+                AVCaptureDevice.requestAccess(for: .video) { granted in
+                    if granted {
+                        print("Camera access is granted after request.")
+                        self.captureAndScanQR()
+                        
+                    } else {
+                        self.presentNoAccessVC()
+                    }
+                }
+            case .denied, .restricted:
+                self.presentNoAccessVC()
+            @unknown default:
+                print("Unknown case in camera permission check.")
+        }
+    }
     
+    private func presentNoAccessVC() {
+        DispatchQueue.main.async {
+            let grantVC = ShowGrantPermissionViewController()
+            grantVC.modalPresentationStyle = .overCurrentContext
+            grantVC.modalTransitionStyle = .crossDissolve
+            self.present(grantVC, animated: true, completion: nil)
+        }
+    }
+
     func setup() {
-        captureAndScanQR()
+        checkCameraPermission()
         addCheckManuallyButton()
         configureContainerView()
         configureInfoBoxView()

@@ -22,8 +22,9 @@ class Event: Codable {
     var amount: Double
     var charge_uuid: String
     var created_at: String
+    var event_date: String
     
-    init(uuid: String, owner_name: String, is_checked: Bool, is_expired: Bool, nb_of_checks: Int, event_title: String, event_description: String, nb_of_persons: Int, channel: String, amount: Double, charge_uuid: String, created_at: String) {
+    init(uuid: String, owner_name: String, is_checked: Bool, is_expired: Bool, nb_of_checks: Int, event_title: String, event_description: String, nb_of_persons: Int, channel: String, amount: Double, charge_uuid: String, created_at: String, event_date: String) {
         self.uuid = uuid
         self.owner_name = owner_name
         self.is_checked = is_checked
@@ -36,6 +37,7 @@ class Event: Codable {
         self.amount = amount
         self.charge_uuid = charge_uuid
         self.created_at = created_at
+        self.event_date = event_date
     }
     
     enum CodingKeys: String, CodingKey {
@@ -51,6 +53,7 @@ class Event: Codable {
         case amount
         case charge_uuid
         case created_at
+        case event_date
     }
     
     required init(from decoder: Decoder) throws {
@@ -67,6 +70,7 @@ class Event: Codable {
         self.amount = try container.decode(Double.self, forKey: .amount)
         self.charge_uuid = try container.decode(String.self, forKey: .charge_uuid)
         self.created_at = try container.decode(String.self, forKey: .created_at)
+        self.event_date = try container.decode(String.self, forKey: .event_date)
     }
     
     func formatDate() -> String? {
@@ -75,7 +79,7 @@ class Event: Codable {
         inputFormatter.locale = Locale(identifier: "en_US_POSIX")
         inputFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 
-        guard let date = inputFormatter.date(from: self.created_at) else {
+        guard let date = inputFormatter.date(from: self.event_date) else {
             return nil
         }
         
