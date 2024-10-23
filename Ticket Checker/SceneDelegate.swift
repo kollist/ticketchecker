@@ -17,11 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
         let window = UIWindow(windowScene: windowScene)
-        let vc = ResultViewController();
-        vc.eventInstance = Event(uuid: "8212EPTRQWOS", owner_name: "Mohammed EL BANYAOUI", is_checked: true, is_expired: false, nb_of_checks: 6, event_title: "All Hail the Buenos Aires Bodegón", event_description: "A reflection of the massive waves of immigrants that arrived in Argentina at the turn of the 19th century, these Italo-Hispano restaurants are brimming with character.", nb_of_persons: 1, channel: "ios", amount: 500, charge_uuid: "86T8AP28M99KG", created_at: "2024-10-16T17:43:36.000000Z")
-        vc.ticketNumber = "8212EPTRQWOS"
         window.rootViewController = QRScannerViewController()
         self.window = window
         window.makeKeyAndVisible()
