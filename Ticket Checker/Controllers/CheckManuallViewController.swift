@@ -61,8 +61,8 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
             animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            animationView.widthAnchor.constraint(equalToConstant: 300),
-            animationView.heightAnchor.constraint(equalToConstant: 300),
+            animationView.widthAnchor.constraint(equalToConstant: 60),
+            animationView.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
 
@@ -203,9 +203,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         let ticketChecker = TicketChecker()
         addLoader()
         ticketChecker.checkETicket(ticketNumber: ticketKey) { result in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.removeLoader()
-            }
+            self.removeLoader()
             switch result {
                 case .success((let event, let link)):
                     print(link)

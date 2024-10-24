@@ -36,8 +36,8 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         NSLayoutConstraint.activate([
             animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            animationView.widthAnchor.constraint(equalToConstant: 300),
-            animationView.heightAnchor.constraint(equalToConstant: 300),
+            animationView.widthAnchor.constraint(equalToConstant: 60),
+            animationView.heightAnchor.constraint(equalToConstant: 60),
         ])
         animationView.play()
         
@@ -129,11 +129,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                     let ticketChecker = TicketChecker()
                     ticketChecker.checkETicket(ticketNumber: ticketKey) { [weak self] result in
                         guard let self = self else { return }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.removeLoader()
-                        }
-                        
+                        self.removeLoader()
                         switch result {
                         case .success((let event, let link)):
                             DispatchQueue.main.async {
