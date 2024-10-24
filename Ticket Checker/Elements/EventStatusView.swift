@@ -98,6 +98,4 @@ class EventStatusView: UIView {
         }
         setupView()
     }
-
-
 }

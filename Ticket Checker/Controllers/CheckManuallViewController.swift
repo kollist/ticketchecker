@@ -206,7 +206,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         view.endEditing(true)
         let ticketChecker = TicketChecker()
         addLoader()
-        ticketChecker.checkETicket(ticketNumber: ticketKey) { result in
+        ticketChecker.checkETicket(ticketNumber: ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)) { result in
             self.removeLoader()
             switch result {
                 case .success((let event, let link)):
@@ -214,7 +214,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
                     DispatchQueue.main.async {
                         let resultVC = ResultViewController()
                         resultVC.eventInstance = event
-                        resultVC.ticketNumber = ticketKey
+                        resultVC.ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
                         resultVC.modalPresentationStyle = .overCurrentContext
                         resultVC.modalTransitionStyle = .crossDissolve
                         self.present(resultVC, animated: true, completion: nil)

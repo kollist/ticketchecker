@@ -126,7 +126,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                     print(ticketKey)
                     
                     let ticketChecker = TicketChecker()
-                    ticketChecker.checkETicket(ticketNumber: ticketKey) { result in
+                    ticketChecker.checkETicket(ticketNumber: ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)) { result in
                         self.removeLoader()
                         switch result {
                             case .success((let event, let link)):
@@ -135,7 +135,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                                     let resultVC = ResultViewController()
                                     resultVC.delegate = self
                                     resultVC.eventInstance = event
-                                    resultVC.ticketNumber = ticketKey
+                                    resultVC.ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
                                     resultVC.modalPresentationStyle = .overCurrentContext
                                     resultVC.modalTransitionStyle = .crossDissolve
                                     self.present(resultVC, animated: true, completion: nil)
