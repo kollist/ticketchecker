@@ -121,7 +121,6 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             if let metadataObject = metadataObjects.first {
                 guard let readbleObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
                 if let ticketKey = readbleObject.stringValue {
-                    // Stop the session when presenting new view
                     stopCameraSession()
                     addLoader()
                     print(ticketKey)
@@ -131,6 +130,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                         self.removeLoader()
                         switch result {
                             case .success((let event, let link)):
+                                print(link)
                                 DispatchQueue.main.async {
                                     let resultVC = ResultViewController()
                                     resultVC.delegate = self
@@ -141,6 +141,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                                     self.present(resultVC, animated: true, completion: nil)
                                 }
                             case .failure(let error):
+                                print(error)
                                 DispatchQueue.main.async {
                                     let failedVc = TicketNowFoundViewController()
                                     failedVc.modalPresentationStyle = .overCurrentContext

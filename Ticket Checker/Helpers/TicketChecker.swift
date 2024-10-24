@@ -51,8 +51,8 @@ class TicketChecker {
             }
 
             do {
-                print(data)
                 let event = try JSONDecoder().decode(Event.self, from: data)
+                dump(event)
                 completion(.success((event, urlString)))
             } catch {
                 print("Error decoding JSON: \(error)")

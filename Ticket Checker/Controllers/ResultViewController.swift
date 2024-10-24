@@ -68,6 +68,7 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
             let eventTitleLabel = TitleLabel()
             eventTitleLabel.translatesAutoresizingMaskIntoConstraints = false
             if let event = self.eventInstance, let ticket = self.ticketNumber {
+                
                 eventTitleLabel.config(event.event_title ?? "")
                 
                 if let owner_name = event.owner_name {
@@ -87,18 +88,13 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
                     eventDataDetailsView.addEventRow(eventRowThree)
                 }
                 
-                if let nbOfPersons = event.nb_of_persons {
-                    let eventRowFour = EventDetailRowView()
-                    eventRowFour.config(key: "Number of personnes:", value: "\(nbOfPersons) Personne\(nbOfPersons > 1 ? "s" : "")", fontWeight: .bold)
-                    eventDataDetailsView.addEventRow(eventRowFour)
-                }
+                let eventRowFour = EventDetailRowView()
+                eventRowFour.config(key: "Number of personnes:", value: "\(event.guests) Personne\(event.guests > 1 ? "s" : "")", fontWeight: .bold)
+                eventDataDetailsView.addEventRow(eventRowFour)
                 
-                if let amount = event.amount {
-                    let eventRowFive = EventDetailRowView()
-                    let price = amount / 100
-                    eventRowFive.config(key: "Price", value: "$\(price > 0 ? String(format: "$%.2f", price) : "Free Ticket")")
-                    eventDataDetailsView.addEventRow(eventRowFive, false)
-                }
+                let eventRowFive = EventDetailRowView()
+                eventRowFive.config(key: "Price", value: "\(event.price)")
+                eventDataDetailsView.addEventRow(eventRowFive, false)
                 
                 
                 
