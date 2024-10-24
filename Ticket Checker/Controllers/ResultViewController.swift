@@ -12,6 +12,7 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
     var eventInstance: Event?
     var ticketNumber: String?
     let statusView = EventStatusView()
+    weak var delegate: QRScannerDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "BgColor")
@@ -20,6 +21,11 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
             print("Event Title: \(event.event_title)")
             print("Owner Name: \(event.owner_name)")
         }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.didDismissModalView()
     }
     
     func configEventStatusView() {
@@ -81,7 +87,7 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
                 eventRowFour.config(key: "Number of personnes:", value: "\(event.nb_of_persons) Personne\(event.nb_of_persons > 1 ? "s" : "")", fontWeight: .bold)
                 
                 let eventRowFive = EventDetailRowView()
-                eventRowFive.config(key: "Price", value: "$\(event.amount)")
+                eventRowFive.config(key: "Price", value: "$\(event.amount / 100)")
                 
                 // Add the rows to the stack view
                 eventDataDetailsView.addEventRow(eventRowOne)

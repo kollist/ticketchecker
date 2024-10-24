@@ -9,35 +9,75 @@ import AVFoundation
 import Lottie
 class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, UIGestureRecognizerDelegate {
 
-    private var animationView: LottieAnimationView?
     let session = AVCaptureSession()
     var previewLayer = AVCaptureVideoPreviewLayer()
     let btn = CustomButton()
+    private var isSessionRunning = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setup()
     }
     
+    private lazy var animationView: LottieAnimationView = {
+        let animationView = LottieAnimationView()
+        return animationView
+    }()
+    
     func addLoader() {
-        if animationView == nil {
-            animationView = .init(name: "loader")
-            animationView?.frame = view.bounds
-            animationView?.contentMode = .scaleAspectFit
-            animationView?.loopMode = .loop
-            animationView?.backgroundColor = .black.withAlphaComponent(0.8)
-            animationView?.animationSpeed = 0.5
-            if let aniView = animationView {
-                view.addSubview(aniView)
-                aniView.play()
-            }
-        }
+        animationView = .init(name: "loader")
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.frame = view.bounds
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1
+        view.addSubview(animationView)
+        NSLayoutConstraint.activate([
+            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            animationView.widthAnchor.constraint(equalToConstant: 300),
+            animationView.heightAnchor.constraint(equalToConstant: 300),
+        ])
+        animationView.play()
+        
     }
 
     func removeLoader() {
         DispatchQueue.main.async {
-            self.animationView?.stop()
-            self.animationView?.removeFromSuperview()
-            self.animationView = nil
+            self.animationView.stop()
+            self.animationView.removeFromSuperview()
+        }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startCameraSession()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopCameraSession()
+    }
+    
+    private func startCameraSession() {
+        if !isSessionRunning {
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                self?.session.startRunning()
+                DispatchQueue.main.async {
+                    self?.isSessionRunning = true
+                }
+            }
+        }
+    }
+    
+    private func stopCameraSession() {
+        if isSessionRunning {
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                self?.session.stopRunning()
+                DispatchQueue.main.async {
+                    self?.isSessionRunning = false
+                }
+            }
         }
     }
     
@@ -70,6 +110,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             self.session.startRunning()
         }
     }
+    
     func addOverlay(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
         let overlayView = UIView(frame: CGRect(x: x, y: y, width: width, height: height))
         overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -77,45 +118,45 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     }
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        if let metadataObject = metadataObjects.first {
-            guard let readbleObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
-            if let ticketKey = readbleObject.stringValue {
-                print(ticketKey)
-                
-                addLoader()
-                
-                let ticketChecker = TicketChecker()
-                ticketChecker.checkETicket(ticketNumber: ticketKey) { result in
+            if let metadataObject = metadataObjects.first {
+                guard let readbleObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
+                if let ticketKey = readbleObject.stringValue {
+                    // Stop the session when presenting new view
+                    stopCameraSession()
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.removeLoader()
-                    }
+                    addLoader()
                     
-                    switch result {
+                    let ticketChecker = TicketChecker()
+                    ticketChecker.checkETicket(ticketNumber: ticketKey) { [weak self] result in
+                        guard let self = self else { return }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.removeLoader()
+                        }
+                        
+                        switch result {
                         case .success((let event, let link)):
-                            print(link)
                             DispatchQueue.main.async {
                                 let resultVC = ResultViewController()
+                                resultVC.delegate = self
                                 resultVC.eventInstance = event
                                 resultVC.ticketNumber = ticketKey
                                 resultVC.modalPresentationStyle = .overCurrentContext
                                 resultVC.modalTransitionStyle = .crossDissolve
                                 self.present(resultVC, animated: true, completion: nil)
                             }
-                        case .failure( let error ):
-                            print(error)
+                        case .failure(let error):
                             DispatchQueue.main.async {
                                 let failedVc = TicketNowFoundViewController()
                                 failedVc.modalPresentationStyle = .overCurrentContext
                                 failedVc.modalTransitionStyle = .crossDissolve
                                 self.present(failedVc, animated: true, completion: nil)
                             }
+                        }
                     }
                 }
-
             }
         }
-    }
     
     func addCheckManuallyButton() {
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -226,7 +267,9 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     }
     
     @objc func showCheckManulVC() {
+        stopCameraSession()
         let vc = CheckManuallViewController()
+        vc.delegate = self
         vc.modalPresentationStyle = .overCurrentContext
         vc.modalTransitionStyle = .crossDissolve
         self.present(vc, animated: true, completion: nil)
@@ -263,7 +306,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             self.present(grantVC, animated: true, completion: nil)
         }
     }
-
+   
     func setup() {
         checkCameraPermission()
         addCheckManuallyButton()
@@ -274,3 +317,9 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     
 }
 
+
+extension QRScannerViewController: QRScannerDelegate {
+    func didDismissModalView() {
+        startCameraSession()
+    }
+}

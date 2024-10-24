@@ -84,7 +84,6 @@ class EventStatusView: UIView {
     
     func config(checked: Bool) {
         if checked {
-            let title = "Ticket"
             if let img = UIImage(named: "InvalidTicketIcon"), let dark = UIColor(named: "InvalidTicketColorTwo")?.cgColor, let light = UIColor(named: "InvalidTicketColorOne")?.cgColor {
                 iconImage.image = img
                 titleLabel.text = alreadyCheckedTitle
@@ -93,7 +92,7 @@ class EventStatusView: UIView {
         }else {
             if let img = UIImage(named: "ValidTicketIcon"), let dark = UIColor(named: "ValidTicketColorTwo")?.cgColor, let light = UIColor(named: "ValidTicketColorOne")?.cgColor {
                 iconImage.image = img
-                titleLabel.text = alreadyCheckedTitle
+                titleLabel.text = validTicketTitle
                 gradientFunction(self, colors: [dark, light])
             }
         }

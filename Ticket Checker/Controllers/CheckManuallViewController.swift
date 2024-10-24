@@ -13,7 +13,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
     var bottomConstraint: NSLayoutConstraint?
     var centerYConstraint: NSLayoutConstraint?
     var keyboardVisible: Bool = false
-    private var animationView: LottieAnimationView?
+    weak var delegate: QRScannerDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,26 +38,38 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         view.addGestureRecognizer(tap)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.didDismissModalView()
+    }
+    
+    private lazy var animationView: LottieAnimationView = {
+        let animationView = LottieAnimationView()
+        return animationView
+    }()
+    
     func addLoader() {
-        if animationView == nil {
-            animationView = .init(name: "loader")
-            animationView?.frame = view.bounds
-            animationView?.contentMode = .scaleAspectFit
-            animationView?.loopMode = .loop
-            animationView?.backgroundColor = .black.withAlphaComponent(0.8)
-            animationView?.animationSpeed = 0.5
-            if let aniView = animationView {
-                view.addSubview(aniView)
-                aniView.play()
-            }
-        }
+        animationView = .init(name: "loader")
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.frame = view.bounds
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1
+        view.addSubview(animationView)
+        animationView.play()
+        NSLayoutConstraint.activate([
+            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            animationView.widthAnchor.constraint(equalToConstant: 300),
+            animationView.heightAnchor.constraint(equalToConstant: 300),
+        ])
     }
 
     func removeLoader() {
         DispatchQueue.main.async {
-            self.animationView?.stop()
-            self.animationView?.removeFromSuperview()
-            self.animationView = nil
+            self.animationView.stop()
+            self.animationView.removeFromSuperview()
         }
     }
     
@@ -119,7 +131,6 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(UIImage(named: "ClosePopUpIcon"), for: .normal)
-//        btn.setTitleColor(.label, for: .normal)
         btn.isUserInteractionEnabled = true
         btn.isEnabled = true
         btn.addTarget(self, action: #selector(closeModal), for: .touchUpInside)

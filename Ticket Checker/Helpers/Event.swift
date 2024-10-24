@@ -74,6 +74,7 @@ class Event: Codable {
     }
     
     func formatDate() -> String? {
+        // ISO8601DateFormatter().
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
         inputFormatter.locale = Locale(identifier: "en_US_POSIX")
