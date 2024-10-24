@@ -55,14 +55,16 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .loop
         animationView.animationSpeed = 1
-        view.addSubview(animationView)
+        nextButton.isEnabled = false
+        nextButton.setTitle("", for: .normal)
+        nextButton.addSubview(animationView)
         animationView.play()
         NSLayoutConstraint.activate([
-            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            animationView.centerXAnchor.constraint(equalTo: nextButton.centerXAnchor),
+            animationView.centerYAnchor.constraint(equalTo: nextButton.centerYAnchor),
             
-            animationView.widthAnchor.constraint(equalToConstant: 60),
-            animationView.heightAnchor.constraint(equalToConstant: 60),
+            animationView.widthAnchor.constraint(equalToConstant: 30),
+            animationView.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
 
@@ -70,6 +72,8 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         DispatchQueue.main.async {
             self.animationView.stop()
             self.animationView.removeFromSuperview()
+            self.nextButton.setTitle("Next", for: .normal)
+            self.nextButton.isEnabled = true
         }
     }
     
@@ -226,6 +230,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
             }
         }
     }
+    
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
