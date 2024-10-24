@@ -21,12 +21,13 @@ class TicketChecker {
             case .success(let event):
                 completion(.success(event))
             case .failure:
+                print("I'm here")
                 self.fetchTicket(from: endpoint2) { result in
                     switch result {
-                    case .success(let event):
-                        completion(.success(event))
-                    case .failure(let error):
-                        completion(.failure(error))
+                        case .success(let event):
+                            completion(.success(event))
+                        case .failure(let error):
+                            completion(.failure(error))
                     }
                 }
             }
@@ -50,6 +51,7 @@ class TicketChecker {
             }
 
             do {
+                print(data)
                 let event = try JSONDecoder().decode(Event.self, from: data)
                 completion(.success((event, urlString)))
             } catch {

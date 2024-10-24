@@ -228,12 +228,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//        if (textField.text != "") {
-//            errLbl.isHidden = true
-            return true
-//        }
-//        errLbl.isHidden = false
-//        return false
+        return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

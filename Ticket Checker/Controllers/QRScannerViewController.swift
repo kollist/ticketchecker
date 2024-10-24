@@ -123,36 +123,36 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                 if let ticketKey = readbleObject.stringValue {
                     // Stop the session when presenting new view
                     stopCameraSession()
-                    
                     addLoader()
+                    print(ticketKey)
                     
                     let ticketChecker = TicketChecker()
-                    ticketChecker.checkETicket(ticketNumber: ticketKey) { [weak self] result in
-                        guard let self = self else { return }
+                    ticketChecker.checkETicket(ticketNumber: ticketKey) { result in
                         self.removeLoader()
                         switch result {
-                        case .success((let event, let link)):
-                            DispatchQueue.main.async {
-                                let resultVC = ResultViewController()
-                                resultVC.delegate = self
-                                resultVC.eventInstance = event
-                                resultVC.ticketNumber = ticketKey
-                                resultVC.modalPresentationStyle = .overCurrentContext
-                                resultVC.modalTransitionStyle = .crossDissolve
-                                self.present(resultVC, animated: true, completion: nil)
-                            }
-                        case .failure(let error):
-                            DispatchQueue.main.async {
-                                let failedVc = TicketNowFoundViewController()
-                                failedVc.modalPresentationStyle = .overCurrentContext
-                                failedVc.modalTransitionStyle = .crossDissolve
-                                self.present(failedVc, animated: true, completion: nil)
-                            }
+                            case .success((let event, let link)):
+                                DispatchQueue.main.async {
+                                    let resultVC = ResultViewController()
+                                    resultVC.delegate = self
+                                    resultVC.eventInstance = event
+                                    resultVC.ticketNumber = ticketKey
+                                    resultVC.modalPresentationStyle = .overCurrentContext
+                                    resultVC.modalTransitionStyle = .crossDissolve
+                                    self.present(resultVC, animated: true, completion: nil)
+                                }
+                            case .failure(let error):
+                                DispatchQueue.main.async {
+                                    let failedVc = TicketNowFoundViewController()
+                                    failedVc.modalPresentationStyle = .overCurrentContext
+                                    failedVc.modalTransitionStyle = .crossDissolve
+                                    failedVc.delegate = self
+                                    self.present(failedVc, animated: true, completion: nil)
                         }
                     }
                 }
             }
         }
+    }
     
     func addCheckManuallyButton() {
         btn.translatesAutoresizingMaskIntoConstraints = false

@@ -10,21 +10,21 @@ import Foundation
 
 class Event: Codable {
     
-    var uuid: String
-    var owner_name: String
-    var is_checked: Bool
-    var is_expired: Bool
-    var nb_of_checks: Int
-    var event_title: String
-    var event_description: String
-    var nb_of_persons: Int
-    var channel: String
-    var amount: Double
-    var charge_uuid: String
-    var created_at: String
-    var event_date: String
+    var uuid: String?
+    var owner_name: String?
+    var is_checked: Bool?
+    var is_expired: Bool?
+    var nb_of_checks: Int?
+    var event_title: String?
+    var event_description: String?
+    var nb_of_persons: Int?
+    var channel: String?
+    var amount: Double?
+    var charge_uuid: String?
+    var created_at: String?
+    var event_date: String?
     
-    init(uuid: String, owner_name: String, is_checked: Bool, is_expired: Bool, nb_of_checks: Int, event_title: String, event_description: String, nb_of_persons: Int, channel: String, amount: Double, charge_uuid: String, created_at: String, event_date: String) {
+    init(uuid: String? = nil, owner_name: String? = nil, is_checked: Bool? = nil, is_expired: Bool? = nil, nb_of_checks: Int? = nil, event_title: String? = nil, event_description: String? = nil, nb_of_persons: Int? = nil, channel: String? = nil, amount: Double? = nil, charge_uuid: String? = nil, created_at: String? = nil, event_date: String? = nil) {
         self.uuid = uuid
         self.owner_name = owner_name
         self.is_checked = is_checked
@@ -75,23 +75,26 @@ class Event: Codable {
     
     func formatDate() -> String? {
         // ISO8601DateFormatter().
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
-        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-        inputFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-        guard let date = inputFormatter.date(from: self.event_date) else {
-            return nil
+        if let eDate = self.event_date {
+            let inputFormatter = DateFormatter()
+            inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
+            inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+            inputFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+            
+            guard let date = inputFormatter.date(from: eDate) else {
+                return nil
+            }
+            
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "E, MMM dd | h:mm a"
+            outputFormatter.amSymbol = "AM"
+            outputFormatter.pmSymbol = "PM"
+            outputFormatter.timeZone = TimeZone.current
+            
+            let formattedDate = outputFormatter.string(from: date)
+            
+            return formattedDate
         }
-        
-        let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "E, MMM dd | h:mm a"
-        outputFormatter.amSymbol = "AM"
-        outputFormatter.pmSymbol = "PM"
-        outputFormatter.timeZone = TimeZone.current
-
-        let formattedDate = outputFormatter.string(from: date)
-        
-        return formattedDate
+        return nil
     }
 }

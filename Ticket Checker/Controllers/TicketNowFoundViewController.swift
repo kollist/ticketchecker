@@ -9,12 +9,11 @@ import UIKit
 
 class TicketNowFoundViewController: UIViewController, UIGestureRecognizerDelegate {
 
+    weak var delegate: QRScannerDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         config()
     }
-    
-
     
     private func configTryAgainBtn() {
         let btn = CustomButton()
@@ -35,6 +34,10 @@ class TicketNowFoundViewController: UIViewController, UIGestureRecognizerDelegat
     
     @objc func goBackToScan() {
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        delegate?.didDismissModalView()
     }
     
     private func configNotFoundIconViewAndTitleAndDesc() {

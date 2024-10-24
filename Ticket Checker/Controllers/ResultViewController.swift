@@ -17,10 +17,6 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "BgColor")
         config()
-        if let event = eventInstance {
-            print("Event Title: \(event.event_title)")
-            print("Owner Name: \(event.owner_name)")
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -30,7 +26,7 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func configEventStatusView() {
         if let event = eventInstance {
-            let is_checked = event.nb_of_checks > 1 ? true : false
+            let is_checked = event.nb_of_checks ?? 2 > 1 ? true : false
             statusView.config(checked: is_checked)
         }
         statusView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,29 +68,42 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
             let eventTitleLabel = TitleLabel()
             eventTitleLabel.translatesAutoresizingMaskIntoConstraints = false
             if let event = self.eventInstance, let ticket = self.ticketNumber {
-                eventTitleLabel.config(event.event_title)
+                eventTitleLabel.config(event.event_title ?? "")
                 
-                let eventRowOne = EventDetailRowView()
-                eventRowOne.config(key: "Name:", value: event.owner_name, fontWeight: .bold)
+                if let owner_name = event.owner_name {
+                    let eventRowOne = EventDetailRowView()
+                    eventRowOne.config(key: "Name:", value: owner_name, fontWeight: .bold)
+                    eventDataDetailsView.addEventRow(eventRowOne)
+                }
+                
                 
                 let eventRowTwo = EventDetailRowView()
                 eventRowTwo.config(key: "Order Number:", value: ticket)
-                
-                let eventRowThree = EventDetailRowView()
-                eventRowThree.config(key: "Date/time:", value: event.formatDate() ?? "")
-                
-                let eventRowFour = EventDetailRowView()
-                eventRowFour.config(key: "Number of personnes:", value: "\(event.nb_of_persons) Personne\(event.nb_of_persons > 1 ? "s" : "")", fontWeight: .bold)
-                
-                let eventRowFive = EventDetailRowView()
-                eventRowFive.config(key: "Price", value: "$\(event.amount / 100)")
-                
-                // Add the rows to the stack view
-                eventDataDetailsView.addEventRow(eventRowOne)
                 eventDataDetailsView.addEventRow(eventRowTwo)
-                eventDataDetailsView.addEventRow(eventRowThree)
-                eventDataDetailsView.addEventRow(eventRowFour)
-                eventDataDetailsView.addEventRow(eventRowFive, false)
+                
+                if let e_date = event.formatDate() {
+                    let eventRowThree = EventDetailRowView()
+                    eventRowThree.config(key: "Date/time:", value: e_date)
+                    eventDataDetailsView.addEventRow(eventRowThree)
+                }
+                
+                if let nbOfPersons = event.nb_of_persons {
+                    let eventRowFour = EventDetailRowView()
+                    eventRowFour.config(key: "Number of personnes:", value: "\(nbOfPersons) Personne\(nbOfPersons > 1 ? "s" : "")", fontWeight: .bold)
+                    eventDataDetailsView.addEventRow(eventRowFour)
+                }
+                
+                if let amount = event.amount {
+                    let eventRowFive = EventDetailRowView()
+                    let price = amount / 100
+                    eventRowFive.config(key: "Price", value: "$\(price > 0 ? String(format: "$%.2f", price) : "Free Ticket")")
+                    eventDataDetailsView.addEventRow(eventRowFive, false)
+                }
+                
+                
+                
+                
+                
             } else {
                 eventTitleLabel.config("Title not available")
             }
