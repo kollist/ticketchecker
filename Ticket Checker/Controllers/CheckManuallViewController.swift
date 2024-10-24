@@ -198,7 +198,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
     }
     
     @objc func checkETicket() {
-        guard let ticketKey = ticketNumberInput.text, !ticketKey.isEmpty else {
+        guard let ticketKey = ticketNumberInput.text?.trimmingCharacters(in: .whitespacesAndNewlines), !ticketKey.isEmpty else {
             errLbl.isHidden = false
             return
         }

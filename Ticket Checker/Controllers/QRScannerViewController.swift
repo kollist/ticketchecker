@@ -10,7 +10,11 @@ import Lottie
 class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, UIGestureRecognizerDelegate {
 
     let session = AVCaptureSession()
-    var previewLayer = AVCaptureVideoPreviewLayer()
+    private lazy var previewLayer: AVCaptureVideoPreviewLayer = {
+        let layer = AVCaptureVideoPreviewLayer()
+        layer.frame = view.bounds
+        return layer
+    }()
     let btn = CustomButton()
     private var isSessionRunning = false
     
@@ -100,12 +104,9 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         output.setMetadataObjectsDelegate(self, queue: .main)
         output.metadataObjectTypes = [.qr]
         
-        previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayer.session = session
         previewLayer.videoGravity = .resizeAspectFill
         
-        previewLayer.frame = view.frame
-        
-        view.layer.addSublayer(previewLayer)
         DispatchQueue.main.async {
             self.session.startRunning()
         }
@@ -305,6 +306,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     }
    
     func setup() {
+        view.layer.addSublayer(previewLayer)
         checkCameraPermission()
         addCheckManuallyButton()
         configureContainerView()
