@@ -9,8 +9,8 @@ import UIKit
 
 class EventStatusView: UIView {
 
-    var alreadyCheckedTitle: String = "TICKET ALREADY SCANNED."
-    var validTicketTitle: String = "TICKET VALID"
+    var alreadyCheckedTitle: String = "Ticket Already\nRedeemed"
+    var validTicketTitle: String = "Ticket is Valid\nSuccessfully Redeemed"
     override func layoutSubviews() {
         super.layoutSubviews()
         updateMaskAndGradient()
@@ -58,8 +58,10 @@ class EventStatusView: UIView {
         var label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .systemFont(ofSize: 24, weight: .semibold)
         label.textColor = .white
+        label.numberOfLines = 2
+        label.textAlignment = .center
         return label
     }()
     
@@ -73,7 +75,8 @@ class EventStatusView: UIView {
             iconImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             iconImage.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -20),
             titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 40),
+            titleLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7),
+            titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 50),
         ])
     }
     

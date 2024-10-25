@@ -204,13 +204,24 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
         }
         errLbl.isHidden = true
         view.endEditing(true)
+        self.addLoader()
         let ticketChecker = TicketChecker()
-        addLoader()
+        let timeout: TimeInterval = 8 // Timeout after 8 seconds
+        let timeoutHandler = DispatchWorkItem {
+            self.removeLoader()
+            ticketChecker.cancelCurrentRequest()
+            let alert = UIAlertController(title: "Error", message: "Request timed out. Please try again.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + timeout, execute: timeoutHandler)
+        
         ticketChecker.checkETicket(ticketNumber: ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)) { result in
+            timeoutHandler.cancel()
             self.removeLoader()
             switch result {
                 case .success((let event, let link)):
-                    print(link)
                     DispatchQueue.main.async {
                         let resultVC = ResultViewController()
                         resultVC.eventInstance = event
@@ -219,8 +230,8 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
                         resultVC.modalTransitionStyle = .crossDissolve
                         self.present(resultVC, animated: true, completion: nil)
                     }
-                case .failure( let error ):
-                    print(error)
+                case .failure( _ ):
+                    
                     DispatchQueue.main.async {
                         let failedVc = TicketNowFoundViewController()
                         failedVc.modalPresentationStyle = .overCurrentContext
