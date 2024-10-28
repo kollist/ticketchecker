@@ -214,24 +214,18 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                         self.removeLoader()
                         switch result {
                             case .success((let event, _ )):
-//                                event.nb_of_checks = 0
                                 DispatchQueue.main.async {
                                     let resultVC = ResultViewController()
-                                    resultVC.delegate = self
                                     resultVC.eventInstance = event
                                     resultVC.ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
-                                    resultVC.modalPresentationStyle = .overCurrentContext
-                                    resultVC.modalTransitionStyle = .crossDissolve
-                                    self.present(resultVC, animated: true, completion: nil)
+                                    self.navigationController?.pushViewController(resultVC, animated: true)
                                 }
                             case .failure(let error):
                                 print(error)
                                 DispatchQueue.main.async {
-                                    let failedVc = TicketNowFoundViewController()
-                                    failedVc.modalPresentationStyle = .overCurrentContext
-                                    failedVc.modalTransitionStyle = .crossDissolve
-                                    failedVc.delegate = self
-                                    self.present(failedVc, animated: true, completion: nil)
+                                    let newViewController = ResultViewController()
+                                    newViewController.notFound = true
+                                    self.navigationController?.pushViewController(newViewController, animated: true)
                         }
                     }
                 }
@@ -302,11 +296,13 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     
     @objc func showCheckManulVC() {
         stopCameraSession()
-        let vc = CheckManuallViewController()
-        vc.delegate = self
-        vc.modalPresentationStyle = .overCurrentContext
-        vc.modalTransitionStyle = .crossDissolve
-        self.present(vc, animated: true, completion: nil)
+        let viewControllerToPresent = CheckManuallViewController()
+        let navigationController = UINavigationController(rootViewController: viewControllerToPresent)
+        viewControllerToPresent.delegate = self
+        navigationController.modalPresentationStyle = .overCurrentContext
+        navigationController.modalTransitionStyle = .crossDissolve
+        navigationController.setNavigationBarHidden(true, animated: false)
+        present(navigationController, animated: true, completion: nil)
     }
 
     func checkCameraPermission() {

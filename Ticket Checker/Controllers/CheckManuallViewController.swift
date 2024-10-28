@@ -165,6 +165,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
     
     lazy var ticketNumberInput: UITextField = {
         let textField = UITextField()
+        textField.autocapitalizationType = .allCharacters
         textField.placeholder = "Enter Ticket Number"
         textField.borderStyle = .roundedRect
         textField.backgroundColor = UIColor(named: "InputFieldBg")
@@ -221,27 +222,22 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
             timeoutHandler.cancel()
             self.removeLoader()
             switch result {
-                case .success((let event, let link)):
+            case .success((let event, _)):
                     DispatchQueue.main.async {
                         let resultVC = ResultViewController()
                         resultVC.eventInstance = event
                         resultVC.ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
-                        resultVC.modalPresentationStyle = .overCurrentContext
-                        resultVC.modalTransitionStyle = .crossDissolve
-                        self.present(resultVC, animated: true, completion: nil)
+                        self.navigationController?.pushViewController(resultVC, animated: true)
                     }
                 case .failure( _ ):
-                    
                     DispatchQueue.main.async {
-                        let failedVc = TicketNowFoundViewController()
-                        failedVc.modalPresentationStyle = .overCurrentContext
-                        failedVc.modalTransitionStyle = .crossDissolve
-                        self.present(failedVc, animated: true, completion: nil)
+                        let newViewController = ResultViewController()
+                        newViewController.notFound = true
+                        self.navigationController?.pushViewController(newViewController, animated: true)
                     }
             }
         }
     }
-    
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true

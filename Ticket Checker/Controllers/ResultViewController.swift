@@ -11,17 +11,21 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var eventInstance: Event?
     var ticketNumber: String?
+    var notFound: Bool = false
     
-    weak var delegate: QRScannerDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "BgColor")
-        config()
+        if notFound  {
+            configError()
+        } else {
+            configThereIsResult()
+        }
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        delegate?.didDismissModalView()
     }
     
     let statusView: EventStatusView = {
@@ -36,13 +40,87 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
         tapGesture.cancelsTouchesInView = false
         tapGesture.delegate = self
         btn.addGestureRecognizer(tapGesture)
-        btn.config("SCAN ANOTHER")
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
     @objc func goBackToScan() {
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        if let navigationController = self.navigationController, navigationController.viewControllers.first != self {
+                navigationController.popToRootViewController(animated: true)
+        }
     }
+    lazy var errorCircle: UIView = {
+        let eventView = EventView()
+        eventView.backgroundColor = UIColor(named: "InfoBgColor") ?? .cyan
+        eventView.layer.cornerRadius = 209 / 2
+        eventView.layer.masksToBounds = true
+        eventView.translatesAutoresizingMaskIntoConstraints = false
+        return eventView
+    }()
+    
+    lazy var errorImage: UIImageView = {
+        let imgView = UIImageView()
+        imgView.image = UIImage(named: "NotFoundTicketIcon")
+        imgView.contentMode = .scaleAspectFit
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.clipsToBounds = true
+        return imgView
+    }()
+    
+    lazy var errorTitle: TitleLabel = {
+        let lbl = TitleLabel()
+        lbl.config("Ticket Not Found")
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
+    lazy var errorDescription: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "Unfortunately, we couldn't find any tickets matching this QR code. Please double-check the code or try again later."
+        lbl.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.numberOfLines = 0
+        lbl.textAlignment = .center
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.textColor = .gray
+        return lbl
+    }()
+    
+    func configError() {
+        ScanAgainButton.config("Try Again")
+        self.view.backgroundColor = UIColor(named: "BgColor")
+        
+        errorCircle.addSubview(errorImage)
+        
+        self.view.addSubview(errorTitle)
+        self.view.addSubview(errorDescription)
+        self.view.addSubview(errorCircle)
+        self.view.addSubview(ScanAgainButton)
+        
+        NSLayoutConstraint.activate([
+            errorCircle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            errorCircle.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -40),
+            errorCircle.heightAnchor.constraint(equalToConstant: 209),
+            errorCircle.widthAnchor.constraint(equalToConstant: 209),
+            
+            errorImage.centerXAnchor.constraint(equalTo: errorCircle.centerXAnchor),
+            errorImage.centerYAnchor.constraint(equalTo: errorCircle.centerYAnchor, constant: 40),
+            
+            errorTitle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            errorTitle.topAnchor.constraint(equalTo: errorCircle.bottomAnchor, constant: 22),
+            
+            errorDescription.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            errorDescription.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9),
+            errorDescription.topAnchor.constraint(equalTo: errorTitle.bottomAnchor, constant: 10),
+            
+            ScanAgainButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            ScanAgainButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            ScanAgainButton.heightAnchor.constraint(equalToConstant: 50),
+            ScanAgainButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
+        ])
+    }
+    
+    
+
     
     lazy var eventView: EventView = {
         let eventView = EventView()
@@ -61,14 +139,13 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
         eventTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         return eventTitleLabel
     }()
-    func configEventData() {
-    }
-    
-    func config() {
+    func configThereIsResult() {
         if let event = eventInstance {
             let is_checked = event.nb_of_checks ?? 2 > 1 ? true : false
             statusView.config(checked: is_checked)
         }
+        ScanAgainButton.config("SCAN ANOTHER")
+        
         
         self.view.addSubview(ScanAgainButton)
         self.view.addSubview(statusView)
