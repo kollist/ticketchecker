@@ -42,3 +42,4 @@ class CustomButton: UIButton {
         self.setTitle(title, for: .normal)
     }
 }
+ 

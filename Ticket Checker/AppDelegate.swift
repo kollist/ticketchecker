@@ -78,3 +78,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+
+extension Date {
+    func currentTimeMillis() -> Int {
+        return Int(self.timeIntervalSince1970)
+    }
+    func add(minute: Int?) -> Date? {
+        guard let value = minute else {return nil}
+        var minuteComp = DateComponents()
+        minuteComp.minute = value
+        let calendar = Calendar.current
+        return calendar.date(byAdding: minuteComp, to: self)
+    }
+}
+
+extension UIImageView {
+    func loadImage(from url: URL) {
+        // Create a URLSession data task to fetch the image
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            // Check for errors and valid data
+            if let error = error {
+                print("Error loading image: \(error)")
+                return
+            }
+            guard let data = data, let image = UIImage(data: data) else {
+                print("Invalid image data")
+                return
+            }
+            // Update the UIImageView on the main thread
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }.resume() // Start the data task
+    }
+}

@@ -74,6 +74,13 @@
             ReferencedContainer = "container:Ticket Checker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "KEY_ID"
+            value = "6LeoSnIqAAAAAGJJcy1x1wssAlTJ_3p8dmrDxPpN"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

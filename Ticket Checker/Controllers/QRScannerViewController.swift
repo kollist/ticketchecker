@@ -15,6 +15,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     private var isConnectedToInternet: Bool = false
     var captureDevice: AVCaptureDevice?
     let session = AVCaptureSession()
+    private var isProcessingQRCode = false
     private lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let layer = AVCaptureVideoPreviewLayer()
         layer.frame = view.bounds
@@ -42,16 +43,20 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         }
     }
     func toggleFlash(on: Bool) {
-        guard let device = captureDevice, device.hasTorch else { return }
+        guard let device = captureDevice, device.hasTorch else {
+            errorAlert("Device does not support a torch.")
+            return
+        }
         
         do {
             try device.lockForConfiguration()
             device.torchMode = on ? .on : .off
             device.unlockForConfiguration()
         } catch {
-            print("Flash could not be used")
+            errorAlert("Failed to toggle flash: \(error.localizedDescription)")
         }
     }
+
 
     lazy var checkManuallyButton: CustomButton = {
         let btn = CustomButton()
@@ -67,27 +72,28 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     func addLoader() {
         animationView = .init(name: "loader")
         animationView.translatesAutoresizingMaskIntoConstraints = false
-        animationView.frame = view.bounds
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .loop
         animationView.animationSpeed = 1
-        loaderContainer.addSubview(animationView)
         
+        loaderContainer.addSubview(animationView)
         view.addSubview(loaderContainer)
+        
         NSLayoutConstraint.activate([
-            
             loaderContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loaderContainer.widthAnchor.constraint(equalTo: view.widthAnchor),
-            loaderContainer.heightAnchor.constraint(equalTo: view.heightAnchor),
+            loaderContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loaderContainer.topAnchor.constraint(equalTo: view.topAnchor),
+            loaderContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             animationView.centerXAnchor.constraint(equalTo: loaderContainer.centerXAnchor),
             animationView.centerYAnchor.constraint(equalTo: loaderContainer.centerYAnchor),
             animationView.widthAnchor.constraint(equalToConstant: 60),
             animationView.heightAnchor.constraint(equalToConstant: 60),
         ])
-        animationView.play()
         
+        animationView.play()
     }
+
     lazy var loaderContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -117,26 +123,23 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         monitor?.cancel()
     }
     private func startCameraSession() {
-        if !isSessionRunning {
-            DispatchQueue.global(qos: .userInitiated).async {
-                self.session.startRunning()
-                DispatchQueue.main.async {
-                    self.isSessionRunning = true
-                }
-            }
+        guard !isSessionRunning else { return }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.session.startRunning()
+            DispatchQueue.main.async { self.isSessionRunning = true }
         }
     }
-    
+
     private func stopCameraSession() {
-        if isSessionRunning {
-            DispatchQueue.global(qos: .userInitiated).async { 
-                self.session.stopRunning()
-                DispatchQueue.main.async {
-                    self.isSessionRunning = false
-                }
-            }
+        guard isSessionRunning else { return }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.session.stopRunning()
+            DispatchQueue.main.async { self.isSessionRunning = false }
         }
     }
+
     
     func captureAndScanQR() {
         DispatchQueue.main.async {
@@ -160,10 +163,10 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                 let input = try AVCaptureDeviceInput(device: captureDevice)
                 session.addInput(input)
             } catch {
-                print("error!")
+                errorAlert("Failed to access camera. Please make sure the camera is not being used by another application.")
             }
         } else {
-            print("NO CAMERA AVAILABLE")
+            errorAlert("No camera available. Please check your device settings or ensure your device has a camera.")
             return
         }
         let output = AVCaptureMetadataOutput()
@@ -188,6 +191,10 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     }
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+            guard !isProcessingQRCode else { return }
+            isProcessingQRCode = true
+        
+            let resultVC = ResultViewController()
             if let metadataObject = metadataObjects.first {
                 guard let readbleObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
                 
@@ -204,6 +211,7 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                         let alert = UIAlertController(title: "Error", message: "Request timed out. Please try again.", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
                             self.startCameraSession()
+                            self.isProcessingQRCode = false
                         }))
                         self.present(alert, animated: true)
                         return
@@ -212,10 +220,10 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                     ticketChecker.checkETicket(ticketNumber: ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)) { result in
                         timeoutHandler.cancel()
                         self.removeLoader()
+                        self.isProcessingQRCode = false
                         switch result {
                             case .success((let event, _ )):
                                 DispatchQueue.main.async {
-                                    let resultVC = ResultViewController()
                                     resultVC.eventInstance = event
                                     resultVC.ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
                                     self.navigationController?.pushViewController(resultVC, animated: true)
@@ -223,12 +231,11 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                             case .failure(let error):
                                 print(error)
                                 DispatchQueue.main.async {
-                                    let newViewController = ResultViewController()
-                                    newViewController.notFound = true
-                                    self.navigationController?.pushViewController(newViewController, animated: true)
+                                    resultVC.notFound = true
+                                    self.navigationController?.pushViewController(resultVC, animated: true)
+                                }
                         }
                     }
-                }
             }
         }
     }
@@ -293,7 +300,23 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         return title
     }()
     
+    lazy var logOutBtn: UIButton = {
+        let btn = UIButton()
+        btn.titleLabel?.numberOfLines = 0
+        btn.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
+        btn.setTitleColor(.white, for: .normal)
+        btn.setImage(UIImage(systemName: "rectangle.portrait.and.arrow.right.fill"), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
+
+        return btn
+
+    }()
     
+    @objc func logoutAction() {
+        print("Logout")
+    }
+
     @objc func showCheckManulVC() {
         stopCameraSession()
         let viewControllerToPresent = CheckManuallViewController()
@@ -303,6 +326,21 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         navigationController.modalTransitionStyle = .crossDissolve
         navigationController.setNavigationBarHidden(true, animated: false)
         present(navigationController, animated: true, completion: nil)
+    }
+    
+    func errorAlert(_ message: String) {
+        DispatchQueue.main.async {
+            if self.isViewLoaded && self.view.window != nil {
+                let alert = UIAlertController(
+                    title: "Error",
+                    message: message,
+                    preferredStyle: .alert
+                )
+                
+                alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+                self.present(alert, animated: true)
+            }
+        }
     }
 
     func checkCameraPermission() {
@@ -324,47 +362,50 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             case .denied, .restricted:
                 self.presentNoAccessVC()
             @unknown default:
-                print("Unknown case in camera permission check.")
+                errorAlert("Unknown case in camera permission check.")
         }
     }
     
     private func presentNoAccessVC() {
         DispatchQueue.main.async {
-            let alert = UIAlertController(
-                title: "Camera Access Denied",
-                message: "Please enable camera access in settings to continue.",
-                preferredStyle: .alert
-            )
-            
-            let settingsAction = UIAlertAction(title: "Go to Settings", style: .default) { _ in
-                if let appSettingsURL = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(appSettingsURL, options: [:], completionHandler: nil)
-                }
-            }
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alert.addAction(settingsAction)
-            alert.addAction(cancelAction)
-            
-                self.present(alert, animated: true)
-        
-            self.checkManuallyButton.removeFromSuperview()
-            self.view.addSubview(self.checkManuallyButton)
-            self.view.addSubview(self.goToSettingsButton)
-            
-            NSLayoutConstraint.activate([
-                self.checkManuallyButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
-                self.checkManuallyButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
-                self.checkManuallyButton.heightAnchor.constraint(equalToConstant: 50),
-                self.checkManuallyButton.bottomAnchor.constraint(equalTo: self.goToSettingsButton.topAnchor, constant: -15),
+            if self.isViewLoaded && self.view.window != nil {
+                let alert = UIAlertController(
+                    title: "Camera Access Denied",
+                    message: "Enable camera access in settings to continue.",
+                    preferredStyle: .alert
+                )
                 
-                self.goToSettingsButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
-                self.goToSettingsButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
-                self.goToSettingsButton.heightAnchor.constraint(equalToConstant: 50),
-                self.goToSettingsButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30),
-            ])
+                alert.addAction(UIAlertAction(title: "Go to Settings", style: .default) { _ in
+                    guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+                    UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                })
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                self.present(alert, animated: true)
+                
+                self.updateManualCheckButtonsLayout()
+            }
         }
+    }
+
+    private func updateManualCheckButtonsLayout() {
+        checkManuallyButton.removeFromSuperview()
+        goToSettingsButton.removeFromSuperview()
+        
+        view.addSubview(checkManuallyButton)
+        view.addSubview(goToSettingsButton)
+        
+        NSLayoutConstraint.activate([
+            checkManuallyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            checkManuallyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            checkManuallyButton.heightAnchor.constraint(equalToConstant: 50),
+            checkManuallyButton.bottomAnchor.constraint(equalTo: goToSettingsButton.topAnchor, constant: -15),
+            
+            goToSettingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            goToSettingsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            goToSettingsButton.heightAnchor.constraint(equalToConstant: 50),
+            goToSettingsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30)
+        ])
     }
 
     @objc func goToSetting() {
@@ -444,16 +485,24 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         self.view.bringSubviewToFront(checkManuallyButton)
         self.view.addSubview(pageTitle)
         self.view.bringSubviewToFront(pageTitle)
-        
+        self.view.addSubview(logOutBtn)
+        self.view.bringSubviewToFront(logOutBtn)
+
         NSLayoutConstraint.activate([
+
+            logOutBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            logOutBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+
             checkManuallyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             checkManuallyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             checkManuallyButton.heightAnchor.constraint(equalToConstant: 50),
             checkManuallyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
-            
+
             pageTitle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             pageTitle.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+
         ])
+
         checkCameraPermission()
         configureContainerView()
         startNetworkMonitor {  isConnected in

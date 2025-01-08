@@ -7,7 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		551333B02D108E62003FD2E1 /* MerchantsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551333AF2D108E62003FD2E1 /* MerchantsModal.swift */; };
+		551B13882CE3C31A00898184 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B13872CE3C31A00898184 /* Profile.swift */; };
+		552954552CE790F0009B0A91 /* LoginModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552954542CE790F0009B0A91 /* LoginModal.swift */; };
+		5534A5BB2CD38FE300E8888E /* RecaptchaEnterprise in Frameworks */ = {isa = PBXBuildFile; productRef = 5534A5BA2CD38FE300E8888E /* RecaptchaEnterprise */; };
+		5534A5C02CD3943500E8888E /* SwiftEmailValidator in Frameworks */ = {isa = PBXBuildFile; productRef = 5534A5BF2CD3943500E8888E /* SwiftEmailValidator */; };
+		5543B13B2D2E957800DE8D07 /* ErrorAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5543B13A2D2E957700DE8D07 /* ErrorAlertViewController.swift */; };
+		555D9D5C2CF0E8DF0008CC69 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555D9D5B2CF0E8DF0008CC69 /* UserDefaultsManager.swift */; };
 		556208962CC94C590063F8A2 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 556208952CC94C590063F8A2 /* Lottie */; };
+		5589D0F42D09D8CB0018B151 /* LocationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5589D0F32D09D8CB0018B151 /* LocationsListViewController.swift */; };
+		5589D0F62D0AE5100018B151 /* ProfileModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5589D0F52D0AE5100018B151 /* ProfileModal.swift */; };
+		55F2E6642CDCD1D800956D5F /* CheckManuallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E63E2CDCD1D800956D5F /* CheckManuallViewController.swift */; };
+		55F2E6652CDCD1D800956D5F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E63F2CDCD1D800956D5F /* LoginViewController.swift */; };
+		55F2E6662CDCD1D800956D5F /* QRScannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6402CDCD1D800956D5F /* QRScannerDelegate.swift */; };
+		55F2E6672CDCD1D800956D5F /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6412CDCD1D800956D5F /* QRScannerViewController.swift */; };
+		55F2E6682CDCD1D800956D5F /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6422CDCD1D800956D5F /* ResultViewController.swift */; };
+		55F2E6692CDCD1D800956D5F /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6432CDCD1D800956D5F /* SplashScreenViewController.swift */; };
+		55F2E66A2CDCD1D800956D5F /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6452CDCD1D800956D5F /* CustomButton.swift */; };
+		55F2E66B2CDCD1D800956D5F /* EventDataDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6462CDCD1D800956D5F /* EventDataDetailsView.swift */; };
+		55F2E66C2CDCD1D800956D5F /* EventDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6472CDCD1D800956D5F /* EventDetailRowView.swift */; };
+		55F2E66D2CDCD1D800956D5F /* EventStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6482CDCD1D800956D5F /* EventStatusView.swift */; };
+		55F2E66E2CDCD1D800956D5F /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6492CDCD1D800956D5F /* EventView.swift */; };
+		55F2E66F2CDCD1D800956D5F /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E64A2CDCD1D800956D5F /* TitleLabel.swift */; };
+		55F2E6702CDCD1D800956D5F /* createCurvedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E64C2CDCD1D800956D5F /* createCurvedPath.swift */; };
+		55F2E6712CDCD1D800956D5F /* Envrionment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E64D2CDCD1D800956D5F /* Envrionment.swift */; };
+		55F2E6722CDCD1D800956D5F /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E64E2CDCD1D800956D5F /* Event.swift */; };
+		55F2E6732CDCD1D800956D5F /* gradientFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E64F2CDCD1D800956D5F /* gradientFunction.swift */; };
+		55F2E6742CDCD1D800956D5F /* gradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6502CDCD1D800956D5F /* gradientLayer.swift */; };
+		55F2E6752CDCD1D800956D5F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6512CDCD1D800956D5F /* KeychainManager.swift */; };
+		55F2E6762CDCD1D800956D5F /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6522CDCD1D800956D5F /* LoginRequest.swift */; };
+		55F2E6772CDCD1D800956D5F /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6532CDCD1D800956D5F /* NetworkManager.swift */; };
+		55F2E6782CDCD1D800956D5F /* TicketChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6542CDCD1D800956D5F /* TicketChecker.swift */; };
+		55F2E6792CDCD1D800956D5F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6592CDCD1D800956D5F /* AppDelegate.swift */; };
+		55F2E67A2CDCD1D800956D5F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6602CDCD1D800956D5F /* SceneDelegate.swift */; };
+		55F2E67B2CDCD1D800956D5F /* Ticket_Checker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E6612CDCD1D800956D5F /* Ticket_Checker.xcdatamodeld */; };
+		55F2E67C2CDCD1D800956D5F /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 55F2E6562CDCD1D800956D5F /* loader.json */; };
+		55F2E67D2CDCD1D800956D5F /* splash.json in Resources */ = {isa = PBXBuildFile; fileRef = 55F2E6572CDCD1D800956D5F /* splash.json */; };
+		55F2E67E2CDCD1D800956D5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55F2E65A2CDCD1D800956D5F /* Assets.xcassets */; };
+		55F2E6802CDCD1D800956D5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55F2E65D2CDCD1D800956D5F /* LaunchScreen.storyboard */; };
+		55F2E6812CDCD1D800956D5F /* LaunchScreen.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55F2E65F2CDCD1D800956D5F /* LaunchScreen.strings */; };
+		55F2E68A2CDCD24700956D5F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 55F2E6892CDCD24700956D5F /* Alamofire */; };
+		55F2E68C2CDCD8CB00956D5F /* SOOApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2E68B2CDCD8CB00956D5F /* SOOApi.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,30 +68,50 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		551333AF2D108E62003FD2E1 /* MerchantsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantsModal.swift; sourceTree = "<group>"; };
+		551B13872CE3C31A00898184 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		552954542CE790F0009B0A91 /* LoginModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModal.swift; sourceTree = "<group>"; };
+		5543B13A2D2E957700DE8D07 /* ErrorAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertViewController.swift; sourceTree = "<group>"; };
+		555D9D5B2CF0E8DF0008CC69 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		5589D0F32D09D8CB0018B151 /* LocationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListViewController.swift; sourceTree = "<group>"; };
+		5589D0F52D0AE5100018B151 /* ProfileModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModal.swift; sourceTree = "<group>"; };
 		558DE4572CC16D970093795B /* Ticket Checker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ticket Checker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		558DE4702CC16DAB0093795B /* Ticket CheckerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ticket CheckerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		558DE47A2CC16DAC0093795B /* Ticket CheckerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ticket CheckerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55F2E63E2CDCD1D800956D5F /* CheckManuallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckManuallViewController.swift; sourceTree = "<group>"; };
+		55F2E63F2CDCD1D800956D5F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		55F2E6402CDCD1D800956D5F /* QRScannerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerDelegate.swift; sourceTree = "<group>"; };
+		55F2E6412CDCD1D800956D5F /* QRScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
+		55F2E6422CDCD1D800956D5F /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		55F2E6432CDCD1D800956D5F /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
+		55F2E6452CDCD1D800956D5F /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		55F2E6462CDCD1D800956D5F /* EventDataDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDataDetailsView.swift; sourceTree = "<group>"; };
+		55F2E6472CDCD1D800956D5F /* EventDetailRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailRowView.swift; sourceTree = "<group>"; };
+		55F2E6482CDCD1D800956D5F /* EventStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStatusView.swift; sourceTree = "<group>"; };
+		55F2E6492CDCD1D800956D5F /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
+		55F2E64A2CDCD1D800956D5F /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
+		55F2E64C2CDCD1D800956D5F /* createCurvedPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createCurvedPath.swift; sourceTree = "<group>"; };
+		55F2E64D2CDCD1D800956D5F /* Envrionment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Envrionment.swift; sourceTree = "<group>"; };
+		55F2E64E2CDCD1D800956D5F /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		55F2E64F2CDCD1D800956D5F /* gradientFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gradientFunction.swift; sourceTree = "<group>"; };
+		55F2E6502CDCD1D800956D5F /* gradientLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gradientLayer.swift; sourceTree = "<group>"; };
+		55F2E6512CDCD1D800956D5F /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		55F2E6522CDCD1D800956D5F /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
+		55F2E6532CDCD1D800956D5F /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		55F2E6542CDCD1D800956D5F /* TicketChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketChecker.swift; sourceTree = "<group>"; };
+		55F2E6562CDCD1D800956D5F /* loader.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
+		55F2E6572CDCD1D800956D5F /* splash.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = splash.json; sourceTree = "<group>"; };
+		55F2E6592CDCD1D800956D5F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		55F2E65A2CDCD1D800956D5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		55F2E65B2CDCD1D800956D5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55F2E65C2CDCD1D800956D5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		55F2E65E2CDCD1D800956D5F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		55F2E6602CDCD1D800956D5F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		55F2E6632CDCD1D800956D5F /* Ticket_Checker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Ticket_Checker.xcdatamodel; sourceTree = "<group>"; };
+		55F2E68B2CDCD8CB00956D5F /* SOOApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOOApi.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		558DE4822CC16DAC0093795B /* Exceptions for "Ticket Checker" folder in "Ticket Checker" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 558DE4562CC16D970093795B /* Ticket Checker */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		558DE4592CC16D970093795B /* Ticket Checker */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				558DE4822CC16DAC0093795B /* Exceptions for "Ticket Checker" folder in "Ticket Checker" target */,
-			);
-			path = "Ticket Checker";
-			sourceTree = "<group>";
-		};
 		558DE4732CC16DAC0093795B /* Ticket CheckerTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Ticket CheckerTests";
@@ -69,7 +129,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5534A5C02CD3943500E8888E /* SwiftEmailValidator in Frameworks */,
+				55F2E68A2CDCD24700956D5F /* Alamofire in Frameworks */,
 				556208962CC94C590063F8A2 /* Lottie in Frameworks */,
+				5534A5BB2CD38FE300E8888E /* RecaptchaEnterprise in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +156,7 @@
 		558DE44E2CC16D960093795B = {
 			isa = PBXGroup;
 			children = (
-				558DE4592CC16D970093795B /* Ticket Checker */,
+				55F2E6622CDCD1D800956D5F /* Ticket Checker */,
 				558DE4732CC16DAC0093795B /* Ticket CheckerTests */,
 				558DE47D2CC16DAC0093795B /* Ticket CheckerUITests */,
 				558DE4582CC16D970093795B /* Products */,
@@ -108,6 +171,83 @@
 				558DE47A2CC16DAC0093795B /* Ticket CheckerUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		55F2E6442CDCD1D800956D5F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5543B13A2D2E957700DE8D07 /* ErrorAlertViewController.swift */,
+				55F2E63E2CDCD1D800956D5F /* CheckManuallViewController.swift */,
+				55F2E63F2CDCD1D800956D5F /* LoginViewController.swift */,
+				55F2E6402CDCD1D800956D5F /* QRScannerDelegate.swift */,
+				55F2E6412CDCD1D800956D5F /* QRScannerViewController.swift */,
+				55F2E6422CDCD1D800956D5F /* ResultViewController.swift */,
+				55F2E6432CDCD1D800956D5F /* SplashScreenViewController.swift */,
+				5589D0F32D09D8CB0018B151 /* LocationsListViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		55F2E64B2CDCD1D800956D5F /* Elements */ = {
+			isa = PBXGroup;
+			children = (
+				55F2E6452CDCD1D800956D5F /* CustomButton.swift */,
+				55F2E6462CDCD1D800956D5F /* EventDataDetailsView.swift */,
+				55F2E6472CDCD1D800956D5F /* EventDetailRowView.swift */,
+				55F2E6482CDCD1D800956D5F /* EventStatusView.swift */,
+				55F2E6492CDCD1D800956D5F /* EventView.swift */,
+				55F2E64A2CDCD1D800956D5F /* TitleLabel.swift */,
+			);
+			path = Elements;
+			sourceTree = "<group>";
+		};
+		55F2E6552CDCD1D800956D5F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				5589D0F52D0AE5100018B151 /* ProfileModal.swift */,
+				555D9D5B2CF0E8DF0008CC69 /* UserDefaultsManager.swift */,
+				551B13872CE3C31A00898184 /* Profile.swift */,
+				55F2E68B2CDCD8CB00956D5F /* SOOApi.swift */,
+				55F2E64C2CDCD1D800956D5F /* createCurvedPath.swift */,
+				55F2E64D2CDCD1D800956D5F /* Envrionment.swift */,
+				55F2E64E2CDCD1D800956D5F /* Event.swift */,
+				55F2E64F2CDCD1D800956D5F /* gradientFunction.swift */,
+				55F2E6502CDCD1D800956D5F /* gradientLayer.swift */,
+				55F2E6512CDCD1D800956D5F /* KeychainManager.swift */,
+				55F2E6522CDCD1D800956D5F /* LoginRequest.swift */,
+				55F2E6532CDCD1D800956D5F /* NetworkManager.swift */,
+				55F2E6542CDCD1D800956D5F /* TicketChecker.swift */,
+				552954542CE790F0009B0A91 /* LoginModal.swift */,
+				551333AF2D108E62003FD2E1 /* MerchantsModal.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		55F2E6582CDCD1D800956D5F /* Looties */ = {
+			isa = PBXGroup;
+			children = (
+				55F2E6562CDCD1D800956D5F /* loader.json */,
+				55F2E6572CDCD1D800956D5F /* splash.json */,
+			);
+			path = Looties;
+			sourceTree = "<group>";
+		};
+		55F2E6622CDCD1D800956D5F /* Ticket Checker */ = {
+			isa = PBXGroup;
+			children = (
+				55F2E6442CDCD1D800956D5F /* Controllers */,
+				55F2E64B2CDCD1D800956D5F /* Elements */,
+				55F2E6552CDCD1D800956D5F /* Helpers */,
+				55F2E6582CDCD1D800956D5F /* Looties */,
+				55F2E6592CDCD1D800956D5F /* AppDelegate.swift */,
+				55F2E65A2CDCD1D800956D5F /* Assets.xcassets */,
+				55F2E65B2CDCD1D800956D5F /* Info.plist */,
+				55F2E65D2CDCD1D800956D5F /* LaunchScreen.storyboard */,
+				55F2E65F2CDCD1D800956D5F /* LaunchScreen.strings */,
+				55F2E6602CDCD1D800956D5F /* SceneDelegate.swift */,
+				55F2E6612CDCD1D800956D5F /* Ticket_Checker.xcdatamodeld */,
+			);
+			path = "Ticket Checker";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,12 +265,12 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				558DE4592CC16D970093795B /* Ticket Checker */,
-			);
 			name = "Ticket Checker";
 			packageProductDependencies = (
 				556208952CC94C590063F8A2 /* Lottie */,
+				5534A5BA2CD38FE300E8888E /* RecaptchaEnterprise */,
+				5534A5BF2CD3943500E8888E /* SwiftEmailValidator */,
+				55F2E6892CDCD24700956D5F /* Alamofire */,
 			);
 			productName = "Ticket Checker";
 			productReference = 558DE4572CC16D970093795B /* Ticket Checker.app */;
@@ -216,6 +356,9 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				55F9A4A02CC7EAAB000ECB74 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				5534A5B92CD38FE300E8888E /* XCRemoteSwiftPackageReference "recaptcha-enterprise-mobile-sdk" */,
+				5534A5BE2CD3943500E8888E /* XCRemoteSwiftPackageReference "SwiftEmailValidator" */,
+				55F2E6882CDCD24700956D5F /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 558DE4582CC16D970093795B /* Products */;
@@ -234,6 +377,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55F2E67C2CDCD1D800956D5F /* loader.json in Resources */,
+				55F2E67D2CDCD1D800956D5F /* splash.json in Resources */,
+				55F2E67E2CDCD1D800956D5F /* Assets.xcassets in Resources */,
+				55F2E6802CDCD1D800956D5F /* LaunchScreen.storyboard in Resources */,
+				55F2E6812CDCD1D800956D5F /* LaunchScreen.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +406,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55F2E6642CDCD1D800956D5F /* CheckManuallViewController.swift in Sources */,
+				55F2E6652CDCD1D800956D5F /* LoginViewController.swift in Sources */,
+				5589D0F42D09D8CB0018B151 /* LocationsListViewController.swift in Sources */,
+				551333B02D108E62003FD2E1 /* MerchantsModal.swift in Sources */,
+				55F2E6662CDCD1D800956D5F /* QRScannerDelegate.swift in Sources */,
+				551B13882CE3C31A00898184 /* Profile.swift in Sources */,
+				5589D0F62D0AE5100018B151 /* ProfileModal.swift in Sources */,
+				55F2E6672CDCD1D800956D5F /* QRScannerViewController.swift in Sources */,
+				55F2E6682CDCD1D800956D5F /* ResultViewController.swift in Sources */,
+				55F2E6692CDCD1D800956D5F /* SplashScreenViewController.swift in Sources */,
+				55F2E66A2CDCD1D800956D5F /* CustomButton.swift in Sources */,
+				55F2E66B2CDCD1D800956D5F /* EventDataDetailsView.swift in Sources */,
+				55F2E68C2CDCD8CB00956D5F /* SOOApi.swift in Sources */,
+				555D9D5C2CF0E8DF0008CC69 /* UserDefaultsManager.swift in Sources */,
+				55F2E66C2CDCD1D800956D5F /* EventDetailRowView.swift in Sources */,
+				55F2E66D2CDCD1D800956D5F /* EventStatusView.swift in Sources */,
+				55F2E66E2CDCD1D800956D5F /* EventView.swift in Sources */,
+				55F2E66F2CDCD1D800956D5F /* TitleLabel.swift in Sources */,
+				55F2E6702CDCD1D800956D5F /* createCurvedPath.swift in Sources */,
+				55F2E6712CDCD1D800956D5F /* Envrionment.swift in Sources */,
+				55F2E6722CDCD1D800956D5F /* Event.swift in Sources */,
+				552954552CE790F0009B0A91 /* LoginModal.swift in Sources */,
+				55F2E6732CDCD1D800956D5F /* gradientFunction.swift in Sources */,
+				55F2E6742CDCD1D800956D5F /* gradientLayer.swift in Sources */,
+				55F2E6752CDCD1D800956D5F /* KeychainManager.swift in Sources */,
+				55F2E6762CDCD1D800956D5F /* LoginRequest.swift in Sources */,
+				5543B13B2D2E957800DE8D07 /* ErrorAlertViewController.swift in Sources */,
+				55F2E6772CDCD1D800956D5F /* NetworkManager.swift in Sources */,
+				55F2E6782CDCD1D800956D5F /* TicketChecker.swift in Sources */,
+				55F2E6792CDCD1D800956D5F /* AppDelegate.swift in Sources */,
+				55F2E67A2CDCD1D800956D5F /* SceneDelegate.swift in Sources */,
+				55F2E67B2CDCD1D800956D5F /* Ticket_Checker.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +469,25 @@
 			targetProxy = 558DE47B2CC16DAC0093795B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		55F2E65D2CDCD1D800956D5F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55F2E65C2CDCD1D800956D5F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		55F2E65F2CDCD1D800956D5F /* LaunchScreen.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55F2E65E2CDCD1D800956D5F /* en */,
+			);
+			name = LaunchScreen.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		558DE4842CC16DAC0093795B /* Debug */ = {
@@ -419,9 +618,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "";
+				PROD_ENVIRONEMENT = true;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -476,8 +675,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
+				PROD_ENVIRONEMENT = true;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
@@ -616,6 +814,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5534A5B92CD38FE300E8888E /* XCRemoteSwiftPackageReference "recaptcha-enterprise-mobile-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/GoogleCloudPlatform/recaptcha-enterprise-mobile-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 18.6.0;
+			};
+		};
+		5534A5BE2CD3943500E8888E /* XCRemoteSwiftPackageReference "SwiftEmailValidator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ekscrypto/SwiftEmailValidator.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+		55F2E6882CDCD24700956D5F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
 		55F9A4A02CC7EAAB000ECB74 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -627,12 +849,40 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5534A5BA2CD38FE300E8888E /* RecaptchaEnterprise */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5534A5B92CD38FE300E8888E /* XCRemoteSwiftPackageReference "recaptcha-enterprise-mobile-sdk" */;
+			productName = RecaptchaEnterprise;
+		};
+		5534A5BF2CD3943500E8888E /* SwiftEmailValidator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5534A5BE2CD3943500E8888E /* XCRemoteSwiftPackageReference "SwiftEmailValidator" */;
+			productName = SwiftEmailValidator;
+		};
 		556208952CC94C590063F8A2 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 55F9A4A02CC7EAAB000ECB74 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
+		55F2E6892CDCD24700956D5F /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 55F2E6882CDCD24700956D5F /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		55F2E6612CDCD1D800956D5F /* Ticket_Checker.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				55F2E6632CDCD1D800956D5F /* Ticket_Checker.xcdatamodel */,
+			);
+			currentVersion = 55F2E6632CDCD1D800956D5F /* Ticket_Checker.xcdatamodel */;
+			path = Ticket_Checker.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 558DE44F2CC16D960093795B /* Project object */;
 }

@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>KEY_ID</key>
+	<string>6LeoSnIqAAAAAGJJcy1x1wssAlTJ_3p8dmrDxPpN</string>
+	<key>PROD</key>
+	<string>${PROD_ENVIRONEMENT}</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSMinimumSystemVersion</key>
