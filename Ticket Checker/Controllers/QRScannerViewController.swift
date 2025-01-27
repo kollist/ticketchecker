@@ -11,6 +11,9 @@ import Network
 
 class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, UIGestureRecognizerDelegate {
 
+    public var onScanComplete: ((_ event: Event?, _ ticketNumber: String?) -> Void)?
+    public var onProfileTap: ((_ completion: @escaping () -> Void) -> Void)?
+    public var onShowCheckManual: ((_ completion: @escaping () -> Void) -> Void)?
     private var monitor: NWPathMonitor?
     private var isConnectedToInternet: Bool = false
     var captureDevice: AVCaptureDevice?
@@ -25,8 +28,14 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Scan QR code"
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.systemFont(ofSize: 18, weight: .semibold)
+        ]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
         setup()
-        
+        setupNavigationBarButton()
         // Set up the long press gesture
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         view.addGestureRecognizer(longPressGesture)
@@ -224,15 +233,14 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
                         switch result {
                             case .success((let event, _ )):
                                 DispatchQueue.main.async {
-                                    resultVC.eventInstance = event
-                                    resultVC.ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
-                                    self.navigationController?.pushViewController(resultVC, animated: true)
+                                    let eventInstance = event
+                                    let ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    self.onScanComplete?(eventInstance, ticketNumber)
                                 }
                             case .failure(let error):
-                                print(error)
                                 DispatchQueue.main.async {
                                     resultVC.notFound = true
-                                    self.navigationController?.pushViewController(resultVC, animated: true)
+                                    self.onScanComplete?(nil, nil)
                                 }
                         }
                     }
@@ -286,46 +294,84 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         }
         
         self.view.bringSubviewToFront(checkManuallyButton)
-        self.view.bringSubviewToFront(pageTitle)
     }
-
     
-    lazy var pageTitle: UILabel = {
-        let title = UILabel()
-        title.numberOfLines =  0
-        title.font = .systemFont(ofSize: 18, weight: .semibold)
-        title.textColor = .white
-        title.text = "Scan QR code"
-        title.translatesAutoresizingMaskIntoConstraints = false
-        return title
-    }()
-    
-    lazy var logOutBtn: UIButton = {
-        let btn = UIButton()
-        btn.titleLabel?.numberOfLines = 0
-        btn.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
-        btn.setTitleColor(.white, for: .normal)
-        btn.setImage(UIImage(systemName: "rectangle.portrait.and.arrow.right.fill"), for: .normal)
+    lazy var settingsButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(systemName: "line.3.horizontal.decrease.circle"), for: .normal)
+        btn.tintColor = .systemGray
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(logoutAction), for: .touchUpInside)
-
+        btn.addTarget(self, action: #selector(settingsAction), for: .touchUpInside)
         return btn
-
     }()
     
-    @objc func logoutAction() {
-        print("Logout")
+    private func setupNavigationBarButton() {
+        // Create the custom button
+        let settingsButton = UIButton(type: .system)
+        settingsButton.setImage(UIImage(systemName: "line.3.horizontal.decrease.circle"), for: .normal)
+        settingsButton.tintColor = .systemGray
+        settingsButton.addTarget(self, action: #selector(settingsAction), for: .touchUpInside)
+        
+        // Wrap it in a UIBarButtonItem
+        let barButtonItem = UIBarButtonItem(customView: settingsButton)
+        navigationItem.rightBarButtonItem = barButtonItem
     }
-
+    
+    @objc func settingsAction() {
+        guard let button = navigationItem.rightBarButtonItem?.customView as? UIButton else { return }
+        
+        // disable the button to prevent multiple taps
+        button.isEnabled = false
+        
+        // perform your action
+        self.onProfileTap? {
+            button.isEnabled = true
+        }
+    }
+    
     @objc func showCheckManulVC() {
         stopCameraSession()
-        let viewControllerToPresent = CheckManuallViewController()
-        let navigationController = UINavigationController(rootViewController: viewControllerToPresent)
-        viewControllerToPresent.delegate = self
-        navigationController.modalPresentationStyle = .overCurrentContext
-        navigationController.modalTransitionStyle = .crossDissolve
-        navigationController.setNavigationBarHidden(true, animated: false)
-        present(navigationController, animated: true, completion: nil)
+        addLoaderAnimation(with: checkManuallyButton, 30)
+        onShowCheckManual? {
+            self.removeLoaderAnimation(from: self.checkManuallyButton, "Check Manually")
+        }
+    }
+    
+    private func addLoaderAnimation(with item: UIButton, _ size: CGFloat) {
+        animationView = .init(name: "loader")
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.frame = view.bounds
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1
+        item.isEnabled = false
+        item.setTitle("", for: .normal)
+        item.addSubview(animationView)
+        self.view.addSubview(loaderContainer)
+        animationView.play()
+        NSLayoutConstraint.activate([
+            animationView.centerXAnchor.constraint(equalTo: item.centerXAnchor),
+            animationView.centerYAnchor.constraint(equalTo: item.centerYAnchor),
+            animationView.widthAnchor.constraint(equalToConstant: size),
+            animationView.heightAnchor.constraint(equalToConstant: size),
+            
+            loaderContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loaderContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loaderContainer.topAnchor.constraint(equalTo: view.topAnchor),
+            loaderContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+        ])
+    }
+    private func removeLoaderAnimation(from item: UIButton, _ title: String) {
+        DispatchQueue.main.async {
+            self.loaderContainer.removeFromSuperview()
+            self.animationView.stop()
+            self.animationView.removeFromSuperview()
+            item.setTitle(title, for: .normal)
+            item.isEnabled = true
+            item.tintColor = .white
+            item.semanticContentAttribute = .forceRightToLeft
+        }
     }
     
     func errorAlert(_ message: String) {
@@ -478,31 +524,20 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
             self.present(alert, animated: true)
         }
     }
-
+    
     func setup() {
         view.layer.addSublayer(previewLayer)
-        self.view.addSubview(checkManuallyButton)
-        self.view.bringSubviewToFront(checkManuallyButton)
-        self.view.addSubview(pageTitle)
-        self.view.bringSubviewToFront(pageTitle)
-        self.view.addSubview(logOutBtn)
-        self.view.bringSubviewToFront(logOutBtn)
-
+        view.addSubview(checkManuallyButton)
+        view.bringSubviewToFront(settingsButton)
+        
         NSLayoutConstraint.activate([
-
-            logOutBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            logOutBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-
+            
             checkManuallyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             checkManuallyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
             checkManuallyButton.heightAnchor.constraint(equalToConstant: 50),
-            checkManuallyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
-
-            pageTitle.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            pageTitle.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
-
+            checkManuallyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
         ])
-
+        
         checkCameraPermission()
         configureContainerView()
         startNetworkMonitor {  isConnected in
@@ -512,6 +547,9 @@ class QRScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsD
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
 }
 
 extension QRScannerViewController: QRScannerDelegate {

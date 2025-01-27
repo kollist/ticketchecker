@@ -12,6 +12,7 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
 
     var bottomConstraint: NSLayoutConstraint?
     var centerYConstraint: NSLayoutConstraint?
+    public var onScanComplete: ((_ event: Event?, _ ticketNumber: String?) -> Void)?
     var keyboardVisible: Bool = false
     weak var delegate: QRScannerDelegate?
     override func viewDidLoad() {
@@ -223,17 +224,14 @@ class CheckManuallViewController: UIViewController, UIGestureRecognizerDelegate,
             self.removeLoader()
             switch result {
             case .success((let event, _)):
-                    DispatchQueue.main.async {
-                        let resultVC = ResultViewController()
-                        resultVC.eventInstance = event
-                        resultVC.ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
-                        self.navigationController?.pushViewController(resultVC, animated: true)
-                    }
+                DispatchQueue.main.async {
+                    let eventInstance = event
+                    let ticketNumber = ticketKey.trimmingCharacters(in: .whitespacesAndNewlines)
+                    self.onScanComplete?(eventInstance, ticketNumber)
+                }
                 case .failure( _ ):
                     DispatchQueue.main.async {
-                        let newViewController = ResultViewController()
-                        newViewController.notFound = true
-                        self.navigationController?.pushViewController(newViewController, animated: true)
+                        self.onScanComplete?(nil, nil)
                     }
             }
         }

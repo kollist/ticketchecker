@@ -9,6 +9,7 @@ import UIKit
 
 class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
 
+    public var onBackToScan: (() -> Void)?
     var eventInstance: Event?
     var ticketNumber: String?
     var notFound: Bool = false
@@ -16,6 +17,7 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "BgColor")
+        setupNavigationBar()
         if notFound  {
             configError()
         } else {
@@ -23,9 +25,14 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    
+    private func setupNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: nil,
+            style: .plain,
+            target: self,
+            action: nil
+        )
     }
     
     let statusView: EventStatusView = {
@@ -44,10 +51,7 @@ class ResultViewController: UIViewController, UIGestureRecognizerDelegate {
         return btn
     }()
     @objc func goBackToScan() {
-        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-        if let navigationController = self.navigationController, navigationController.viewControllers.first != self {
-                navigationController.popToRootViewController(animated: true)
-        }
+        onBackToScan?()
     }
     lazy var errorCircle: UIView = {
         let eventView = EventView()

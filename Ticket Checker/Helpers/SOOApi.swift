@@ -111,7 +111,7 @@ extension SOOApi: EndPointType {
                 return .get
             case .locations:
                 return .get
-            case .merchants(token: let token):
+            case .merchants:
                 return .get
         }
     }

@@ -37,12 +37,12 @@ class UserDefaultsManager {
     
     // Check if token is valid
     func isTokenValid(completion: @escaping (TokenValidationResult) -> Void) {
-        guard let accessToken = defaults.string(forKey: "access_token") else {
+        guard (defaults.string(forKey: "access_token") != nil) else {
             completion(.noToken)
             return
         }
         
-        guard let slug = defaults.string(forKey: "slug") else {
+        guard (defaults.string(forKey: "slug") != nil) else {
             completion(.noSlug)
             return
         }

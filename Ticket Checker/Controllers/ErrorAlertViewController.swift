@@ -17,7 +17,7 @@ class ErrorAlertViewController: UIViewController {
     // MARK: - UI Components
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -89,12 +89,12 @@ class ErrorAlertViewController: UIViewController {
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             containerViewBottomConstraint!,
-            containerView.heightAnchor.constraint(equalToConstant: 150),
+            containerView.heightAnchor.constraint(equalToConstant: 200),
             
-            messageLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 32),
-            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
-            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
-            
+            messageLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 50),
+            messageLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: messageLabel.trailingAnchor, multiplier: 2),
+
             dismissButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
             dismissButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -24),
             dismissButton.bottomAnchor.constraint(equalTo: homeIndicatorView.topAnchor, constant: -16),
